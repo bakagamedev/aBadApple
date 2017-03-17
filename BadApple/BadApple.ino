@@ -12,24 +12,19 @@ int main(void)
 	#ifdef USBCON
     	USBDevice.attach();
 	#endif
-
 	System ab = System();
-	uint16_t frame = 0; 
 
 	ab.boot();
 	ab.setFrameRate(4);
+
+	ab.initVideo(imgFrames);
 	while(1)
 	{  
 		if (ab.nextFrame())
 		{
-			ab.drawPlayfield(imgFrames + (frame*16));
+			ab.stepVideo();
+			ab.drawVideo();
 			ab.display();
-
-			frame++;
-			if(frame > 1296)
-			{
-				frame = 0;
-			}
 		}
 	}
 }
