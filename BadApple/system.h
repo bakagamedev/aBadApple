@@ -50,6 +50,10 @@ class System : public Arduboy2
 			}
 			frameOffset += extraBytes;
 			frame++;
+
+			//Reset once reached end
+			if(frame>1757)
+				initVideo(video);
 		};
 
 		void drawVideo()
