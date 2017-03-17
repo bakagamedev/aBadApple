@@ -9,9 +9,11 @@ class System : public Arduboy2
 		uint16_t frameOffset;
 		uint16_t frame;
 		uint8_t extraBytes;
-		bool playing;
 
 	public:
+		bool playing=true;
+		bool masking=true;
+
 		void initVideo(const uint8_t * PF)
 		{
 			video = PF;
@@ -21,24 +23,29 @@ class System : public Arduboy2
 
 		void stepVideo()
 		{		
+			if (!playing)
+				return;
 			extraBytes = 0;
 			uint8_t firstbyte,secondbyte;
 			for(uint8_t row=0; row<8; ++row)	
 			{
 				firstbyte = pgm_read_byte(video + frameOffset + extraBytes);
-				uint16_t seek = firstbyte >> 3;	//get 5 bytes
-				if(seek==0)	//If line is uncompressed, read next byte
+				uint16_t seek = firstbyte >> 3;	//get 5 seek bytes
+				if(seek==0)	//If line is uncompressed (0 seek), read next byte
 				{
 					extraBytes++;
 					secondbyte = pgm_read_byte(video + frameOffset + extraBytes);
 				}
-				else
+				else	//otherwise, jump back to get byte
 				{
 					uint16_t pos = (video + frameOffset + extraBytes) - (seek);
 					secondbyte = pgm_read_byte(pos);
 				}
 				extraBytes++;	
-				videoBuffer[(row*2)] = firstbyte&B00000111;
+				if(masking)
+					firstbyte = firstbyte&B00000111;
+
+				videoBuffer[(row*2)] = firstbyte;
 				videoBuffer[(row*2)+1] = secondbyte;
 			}
 			frameOffset += extraBytes;
@@ -56,13 +63,16 @@ class System : public Arduboy2
 				for(uint8_t y=0; y<8; ++y)	//repeats each line 8 times on y axis to draw a block
 					this->sBuffer[(offset*8)+y] = buffer;	
 			}
-			setCursor(0,0);
-			print(frame);
-			setCursor(0,8);
-			print(extraBytes);
-			setCursor(0,16);
-			print(frameOffset);
-			setCursor(0,24);
-			print(frame*16);
+			if(masking)
+			{
+				setCursor(0,0);
+				print(frame);
+				setCursor(0,8);
+				print(extraBytes);
+				setCursor(0,16);
+				print(frameOffset);
+				setCursor(0,24);
+				print(frame*16);
+			}
 		};
 };
