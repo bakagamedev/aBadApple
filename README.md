@@ -13,7 +13,7 @@ XXXXXPPP PPPPPPPP
 ```
 X is compression, P is pixels<br/>
 If the right hand byte can be matched with any of the previous 31 bytes in the sequence, XXXXX counts backwards towards that, and the right hand byte isn't stored. <br/>
-Blame any visual anomalies on the encoder too, it needs work.<p/>
+Blame any visual anomalies on the encoder tool, it needs work.<p/>
 
 Otherwise, if the right byte is unique to the previous 31, XXXXX is set to 00000 and the right byte is stored in full.
 <p/>
