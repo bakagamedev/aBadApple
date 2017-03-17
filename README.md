@@ -1,3 +1,4 @@
+
 # aBadApple
 Arduboy port of the [Bad Apple!!](https://www.youtube.com/watch?v=G3C-VevI36s) music video <br/>
 Requires the Arduboy2 library.
@@ -14,6 +15,7 @@ Debug readouts are;
 - Bytes for current frame
 - Screen lines rendered
 - Uncompressed lines rendered
+
 The other debug mode shows the control bits used to decompress the video. It's kinda pretty, I guess.
 
 Encoding scheme!<br/>
@@ -29,4 +31,5 @@ Blame any visual anomalies on the encoding, it needs work.<br/>I feel 10fps shou
 
 Todo:
 - Centre the screen. 
-- Seek controls
+- Add seek controls
+- Contact someone who can sort out the music
