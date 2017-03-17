@@ -12,11 +12,13 @@ class System : public Arduboy2
 
 	public:
 		bool playing=true;
-		bool masking=true;
+		uint8_t debug=0;
 
 		void initVideo(const uint8_t * PF)
 		{
 			video = PF;
+			frame = 0;
+			extraBytes = 0;
 			frameOffset = 0;
 			bool playing = true;
 		};
@@ -42,7 +44,8 @@ class System : public Arduboy2
 					secondbyte = pgm_read_byte(pos);
 				}
 				extraBytes++;	
-				if(masking)
+
+				if((debug==0) or (debug==1))	//If no debug, mask off screen
 					firstbyte = firstbyte&B00000111;
 
 				videoBuffer[(row*2)] = firstbyte;
@@ -52,7 +55,7 @@ class System : public Arduboy2
 			frame++;
 
 			//Reset once reached end
-			if(frame>1757)
+			if(frame>1752)
 				initVideo(video);
 		};
 
@@ -67,7 +70,7 @@ class System : public Arduboy2
 				for(uint8_t y=0; y<8; ++y)	//repeats each line 8 times on y axis to draw a block
 					this->sBuffer[(offset*8)+y] = buffer;	
 			}
-			if(masking)
+			if(debug==1)
 			{
 				setCursor(0,0);
 				print(frame);

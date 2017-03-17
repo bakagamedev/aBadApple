@@ -26,7 +26,9 @@ int main(void)
 			if(ab.justPressed(A_BUTTON))
 				ab.playing = !ab.playing;
 			if(ab.justPressed(B_BUTTON))
-				ab.masking = !ab.masking;
+			{
+				ab.debug = ++ab.debug % 3;
+			}
 
 			ab.stepVideo();
 			ab.drawVideo();
