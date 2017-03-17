@@ -12,7 +12,7 @@ Uncompressed, every line of the display is composed of 2 bytes, one for the left
 XXXXXPPP PPPPPPPP
 ```
 X is compression, P is pixels<br/>
-If the right hand byte can be matched with any of the previous 31 bytes in the sequence, XXXXX counts backwards towards that, and the right hand byte isn't stored. <br/>
+If the right hand byte can be matched with any of the previous 31 bytes in the sequence, XXXXX counts backwards towards that, and the right hand byte isn't stored. <br/> Since the video has plenty of repeated frames, blank frames and samey looking bits, the compression is quite high at 62.87%. For reference, a video full of only black pixels compresses at 51.67% As it only has to occasionally inject a new string of 00000000's in. <br/>
 Blame any visual anomalies on the encoder tool, it needs work.<p/>
 
 Otherwise, if the right byte is unique to the previous 31, XXXXX is set to 00000 and the right byte is stored in full.
